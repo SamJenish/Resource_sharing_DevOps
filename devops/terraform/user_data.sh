@@ -34,4 +34,4 @@ chmod +x /usr/local/bin/docker-compose
 mkdir -p /opt/smart-resource
 cd /opt/smart-resource
 
-echo "User data script completed njnjnjnj successfully"
+echo "User data script completed"
