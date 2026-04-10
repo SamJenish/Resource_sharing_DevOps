@@ -1,0 +1,116 @@
+name: Build and Deploy Microservices
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: smart_resource_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install API Gateway dependencies
+      working-directory: ./services/api-gateway
+      run: npm install
+
+    - name: Install User Service dependencies
+      working-directory: ./services/user-service
+      run: npm install
+
+    - name: Install Resource Service dependencies
+      working-directory: ./services/resource-service
+      run: npm install
+
+    - name: Install Booking Service dependencies
+      working-directory: ./services/booking-service
+      run: npm install
+
+    - name: Lint API Gateway
+      working-directory: ./services/api-gateway
+      run: npm run lint --if-present
+
+    - name: Lint User Service
+      working-directory: ./services/user-service
+      run: npm run lint --if-present
+
+    - name: Lint Resource Service
+      working-directory: ./services/resource-service
+      run: npm run lint --if-present
+
+    - name: Lint Booking Service
+      working-directory: ./services/booking-service
+      run: npm run lint --if-present
+
+  build-docker-images:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Frontend
+      uses: docker/build-push-action@v4
+      with:
+        context: ./services/frontend
+        push: false
+        tags: smart-resource-frontend:${{ github.sha }}
+
+    - name: Build API Gateway
+      uses: docker/build-push-action@v4
+      with:
+        context: ./services/api-gateway
+        push: false
+        tags: smart-resource-api-gateway:${{ github.sha }}
+
+    - name: Build User Service
+      uses: docker/build-push-action@v4
+      with:
+        context: ./services/user-service
+        push: false
+        tags: smart-resource-user-service:${{ github.sha }}
+
+    - name: Build Resource Service
+      uses: docker/build-push-action@v4
+      with:
+        context: ./services/resource-service
+        push: false
+        tags: smart-resource-resource-service:${{ github.sha }}
+
+    - name: Build Booking Service
+      uses: docker/build-push-action@v4
+      with:
+        context: ./services/booking-service
+        push: false
+        tags: smart-resource-booking-service:${{ github.sha }}
