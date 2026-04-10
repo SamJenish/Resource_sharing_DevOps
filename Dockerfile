@@ -1,7 +1,13 @@
 FROM node:18-alpine
 WORKDIR /app
-COPY package*.json ./
+
+# Point to the specific service folder
+COPY services/backend/package*.json ./
+
 RUN npm install
-COPY . .
+
+# Copy the rest of the backend code
+COPY services/backend/ .
+
 EXPOSE 3000
 CMD ["npm", "start"]
