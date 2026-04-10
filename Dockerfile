@@ -6,7 +6,7 @@ COPY services/backend/package*.json ./
 
 RUN npm install
 
-# Copy the rest of the backend code
+# Copy the rest of the backend
 COPY services/backend/ .
 
 EXPOSE 3000
