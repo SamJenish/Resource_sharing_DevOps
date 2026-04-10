@@ -18,7 +18,7 @@ Frontend (React) → API Gateway → Microservices → PostgreSQL Database
 - **User Service**: User management on port 5001
 - **Resource Service**: Resource management on port 5002
 - **Booking Service**: Booking management on port 5003
-- **PostgreSQL**: Database on port 5432
+- **PostgreSQL**: Database on port 5432 ....
 
 ## Quick Start with Docker Compose
 
