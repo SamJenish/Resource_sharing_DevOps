@@ -1,15 +1,12 @@
 ---
 - name: Deploy to Kubernetes
   hosts: localhost
-  connection: local
-  gather_facts: false
-
   tasks:
     - name: Apply namespace
-      command: kubectl apply -f /mnt/d/DevOps_Project/k8s/00-namespace.yaml
+      command: kubectl apply -f ../k8s/00-namespace.yaml
 
     - name: Deploy PostgreSQL
-      command: kubectl apply -f /mnt/d/DevOps_Project/k8s/01-postgres-deployment.yaml
+      command: kubectl apply -f ../k8s/01-postgres-deployment.yaml
 
     - name: Deploy User Service
-      command: kubectl apply -f /mnt/d/DevOps_Project/k8s/06-user-service-deployment.yaml
+      command: kubectl apply -f ../k8s/06-user-service-deployment.yaml
