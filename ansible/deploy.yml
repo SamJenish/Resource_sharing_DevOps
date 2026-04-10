@@ -1,12 +1,15 @@
 ---
 - name: Deploy to Kubernetes
   hosts: localhost
+  vars:
+    # This captures the directory where the playbook is actually running
+    project_root: "{{ lookup('env', 'PWD') }}"
   tasks:
     - name: Apply namespace
-      command: kubectl apply -f ../k8s/00-namespace.yaml
+      command: kubectl apply -f "{{ project_root }}/k8s/00-namespace.yaml"
 
     - name: Deploy PostgreSQL
-      command: kubectl apply -f ../k8s/01-postgres-deployment.yaml
+      command: kubectl apply -f "{{ project_root }}/k8s/01-postgres-deployment.yaml"
 
     - name: Deploy User Service
-      command: kubectl apply -f ../k8s/06-user-service-deployment.yaml
+      command: kubectl apply -f "{{ project_root }}/k8s/06-user-service-deployment.yaml"

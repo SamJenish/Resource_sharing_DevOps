@@ -24,5 +24,6 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:${{ github.sha }}
 
-      - name: Deploy with Ansible
-        run: wsl ansible-playbook /mnt/d/DevOps_Project/ansible/deploy.yml
+      - name: Deploy to Minikube via Ansible
+      run: |
+wsl ansible-playbook ansible/deploy.yml
