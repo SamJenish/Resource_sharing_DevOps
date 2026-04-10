@@ -2,8 +2,10 @@
 - name: Deploy to Kubernetes
   hosts: localhost
   vars:
-    # This captures the directory where the playbook is actually running
-    project_root: "{{ lookup('env', 'PWD') }}"
+    # 'playbook_dir' is a built-in Ansible variable that always 
+    # points to the 'ansible' folder where this file lives.
+    # we go one level up ('..') to get to the project root.
+    project_root: "{{ playbook_dir }}/.."
   tasks:
     - name: Apply namespace
       command: kubectl apply -f "{{ project_root }}/k8s/00-namespace.yaml"
