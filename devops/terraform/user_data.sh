@@ -3,7 +3,6 @@ set -e
 
 echo "Starting user data script..."
 
-# Update system
 apt-get update
 apt-get upgrade -y
 
