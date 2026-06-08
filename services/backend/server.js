@@ -16,6 +16,7 @@ const pool = new Pool({
 });
 
 app.use(cors());
+// Parse JSON bodies
 app.use(express.json());
 
 // --- AI Feedback Module (rule-based) ---
