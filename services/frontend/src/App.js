@@ -9,7 +9,7 @@ import Calendar from './pages/Calendar.jsx';
 import Reports from './pages/Reports.jsx';
 import Sidebar from './components/Sidebar';
 import './App.css';
-
+/* add the rendering component imports here */
 const DEFAULT_RESOURCES = [
   { id: 1, name: 'Lab A', status: 'available', available_time: new Date().toISOString() },
   { id: 2, name: 'Lab B', status: 'available', available_time: new Date().toISOString() },
